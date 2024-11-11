@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Inter';
+    margin: 0;
+}
+
+
+/* morning styles */
+
+.dawn-container{
+    display: none;
+}
+
+.morning-container{
+    /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 550px;
+    height: 550px;
+    background: url(https://wallpapers.com/images/hd/aesthetic-minimalist-firewatch-fa8mgdbaweglc244.jpg);
+    color: white;
+}
+
+.morning-container h2, h4{
+    margin-bottom: 1rem;
+    color: orangered;
+    text-shadow: 2px 2px 4px black;
+}
+
+.morning-button {
+    font-size: medium;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: none;
+    background-color: bisque;
+    cursor: pointer;
+    width: 170px;
+    height: 45px;
+}
+
+.options-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.click-option{
+    list-style-type:none;
+    padding:0;
+}
+
+.click-option input {
+    margin-right: 5px;
+}
+.click-option label {
+    cursor: pointer;
+}
+
+.click-option label:hover {
+    background-color: darkred;
+}
+
+.options-container li{
+    float:left;
+    margin: 0.4rem;
+    border: 1px solid black;
+    padding: 2px 3px;
+    color: aliceblue;
+    border-radius: 4px;
+    background-color: red;
+}
+
+
+
+/* night styles */
+
+.night-container{
+    width: 550px;
+    min-height: 550px;
+    height: 100%;
+    background: url(https://i.redd.it/cmcfzy4qb9881.jpg);
+    background-size: cover;
+    display: grid;
+    padding: 1rem;
+    color: aliceblue;
+    font-weight: 500;
+}
+
+.night-container span, p {
+    text-shadow: 2px 2px 4px black;
+}
+
+.score {
+    display: flex;
+    align-items: center;
+}
+
+.score p {
+    margin-left: 0.8rem;
+}
+
+.score button {
+    margin: 0 auto;
+    background-color: #4D5B9E;
+    color: white;
+    max-width: 200px;
+    width: 140px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}

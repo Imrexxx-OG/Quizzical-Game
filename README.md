@@ -1,0 +1,56 @@
+import React from "react";
+import {decode} from "html-entities"
+
+export default function Night(props){
+  
+  const [afternoonResult, setAfternoonResult] = React.useState([])
+  
+  function optionClicked(e){
+    const clickedOption = document.getElementsByClassName(".option")
+    
+    for (let i = 0; i < clickedOption.length; i++){
+      clickedOption[i].style.backgroundColor = ""
+    }
+    e.target.style.backgroundColor = "yellow"
+    e.target.style.color = "black"
+  }
+  
+  function handleAnswers(e){
+    console.log("Checking Answers....")
+    const myAnswers = props.fetchArray
+    for(let i = 0; i < myAnswers.length; i++){
+      const answerChosen = []
+      if(myAnswers[i].correct_answer === e.target.value){
+        console.log("correct answer")
+        answerChosen.push(...myAnswers.correct_answer)
+      } else {
+        console.log("incorrect answer")
+      }
+    } return answerChosen
+    
+  }
+  
+  return (
+    <div className="night-container">
+      {
+        props.fetchArray.map((item, index) => (
+          <div className="question">
+            <p key={index}>{decode(item.question)}</p>
+            <div className="options-container">
+              {
+                [item.correct_answer, ...item.incorrect_answers].sort(() => Math.random() - 0.5).map((option, i) => {
+                  return <span className="option" key={i} onClick={optionClicked}>{option}</span>
+                })
+              }
+            </div>
+          </div>
+        ))
+      }
+
+      <div className="score">
+        <p>You scored 3/5 correct answers</p>
+        <button onClick={handleAnswers}>{props.fetchArray ? "Check Answers" : "Play again"}</button>
+      </div>
+    </div>
+  )
+}
