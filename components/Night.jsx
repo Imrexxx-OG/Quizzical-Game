@@ -50,6 +50,7 @@ export default function Night(props){
                           name={`option_${index}`} />{decode(option)}
                       </label>
                     </li>
+                    // The id and htmlFor use index and i, which makes each option uniquely identifiable. Using index differentiates questions, while i differentiates options within the same question.
                     
                   )
                 })
