@@ -42,9 +42,15 @@ export default function Night(props){
                 [item.correct_answer, ...item.incorrect_answers].sort(() => Math.random() - 0.5).map((option, i) => {
                   return (
                     <li className="option" key={i}>
-                      <label for="option">
-                        <input type="radio" id="option" name="option"/>{decode(option)}
-                      </label></li>
+                      <label htmlFor={`option_${index}_${i}`}>
+                        <input 
+                          type="radio"
+                          id={`option_${index}_${i}`}
+                          value={option} 
+                          name={`option_${index}`} />{decode(option)}
+                      </label>
+                    </li>
+                    
                   )
                 })
               }
@@ -55,7 +61,7 @@ export default function Night(props){
       }
 
       <div className="score">
-        <p>You scored 3/5 correct answers</p>
+        {/* <p>You scored 3/5 correct answers</p> */}
         <button onClick={handleAnswers}>{props.fetchArray ? "Check Answers" : "Play again"}</button>
       </div>
     </div>
