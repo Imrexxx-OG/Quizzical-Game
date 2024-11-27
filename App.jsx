@@ -3,46 +3,46 @@ import Morning from "./components/Morning"
 import Night from "./components/Night"
 
 export default function App(){
-
-    const dataCache = React.useRef({})
-    const [fetchResult, setFetchResult] = React.useState([])
+    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [quizData, setQuizData] = React.useState([])
     const [startQuiz, setStartQuiz] = React.useState(true)
     
     function handleQuiz(){
         setStartQuiz(prevQuiz => !prevQuiz)
-        // console.log(fetchResult)
+        if(!startQuiz){
+            fetchQuestion()
+        }
     }
-    
-    React.useEffect(()=> {
+
+    function fetchQuestion(){
+        setDataLoaded(false)
+        // Reset loading state to show "loading" message while new questions are being fetched.
         fetch("https://opentdb.com/api.php?amount=5&type=multiple")
             .then(res => res.json())
             .then(data => {
-                dataCache.current = data.results
+                setQuizData(data.results)
+                setDataLoaded(true)
             })
+    }
+    
+    React.useEffect(()=> {
+        fetchQuestion()
     }, [])
 
-    // return (
-    //     <div className="quiz-container">
-    //         <Morning 
-    //             startQuiz={startQuiz}
-    //             handleQuiz={handleQuiz}
-    //         />
-    //         {startQuiz === false && <Afternoon 
-    //             fetchArray={fetchResult}
-    //         />}
-    //     </div>
-    // )
+    
     if (startQuiz){
         return (
         <div className="quiz-container">
             <Morning startQuiz={startQuiz} handleQuiz={handleQuiz} />
         </div> 
         )
-    } else if (startQuiz === false){
+    } else if (!startQuiz && dataLoaded){
         return (
             <div className="quiz-container">
-                <Night fetchArray={dataCache.current}  />
+                <Night fetchArray={quizData} handleQuiz={handleQuiz}  />
             </div>
         )
+    } else if (!startQuiz && !dataLoaded) {
+        return <div>Loading questions...</div>;
     }
 }

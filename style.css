@@ -6,6 +6,7 @@
 
 body {
     margin: 0;
+    width: 100%;
 }
 
 
@@ -21,8 +22,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 550px;
-    height: 550px;
+    min-width: 550px;
+    min-height: 550px;
+    height: 100%;
+    width: 100wh;
     background: url(https://wallpapers.com/images/hd/aesthetic-minimalist-firewatch-fa8mgdbaweglc244.jpg);
     color: white;
 }
@@ -73,18 +76,18 @@ body {
     margin: 0.4rem;
     border: 1px solid black;
     padding: 2px 3px;
-    color: aliceblue;
+    color: black;
+    font-weight: 600;
     border-radius: 4px;
     background-color: red;
 }
 
-
-
 /* night styles */
 
 .night-container{
-    width: 550px;
+    min-width: 550px;
     min-height: 550px;
+    width: 100wh;
     height: 100%;
     background: url(https://i.redd.it/cmcfzy4qb9881.jpg);
     background-size: cover;

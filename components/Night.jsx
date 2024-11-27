@@ -3,67 +3,85 @@ import {decode} from "html-entities"
 
 export default function Night(props){
   
-  const [afternoonResult, setAfternoonResult] = React.useState([])
+  const [shuffledQuestions, setShuffledQuestions] = React.useState([])
+  const [selectedAns, setSelectedAns] = React.useState({})
+
+    React.useEffect(() => {
+        // console.log("fetchArray:", props.fetchArray)
+        const processedQuestions = props.fetchArray.map(item => ({
+            ...item,
+            shuffledOptions: [...item.incorrect_answers, item.correct_answer].sort(() => Math.random() - 0.5),
+        }));
+        setShuffledQuestions(processedQuestions);
+    }, [props.fetchArray])
   
-  function optionClicked(e){
-    const clickedOption = document.getElementsByClassName(".option")
-    
-    for (let i = 0; i < clickedOption.length; i++){
-      clickedOption[i].style.backgroundColor = ""
+  
+    function handleChange(e) {
+      const { name, value } = e.target
+      console.log(name, value) 
+      setSelectedAns(prevState => ({
+          ...prevState,
+          [name]: value,
+      }))
+  }
+  const [ quizComplete, setQuizComplete] = React.useState(false)
+  const [correct, setCorrect] = React.useState(0)
+
+
+  function handleCheckAnswers(){
+    if(quizComplete === false){
+      let correctCount = 0
+
+      shuffledQuestions.forEach((question, index) => {
+        if(selectedAns[`option_${index}`] === question.correct_answer){
+          correctCount++
+        }
+      })
+
+      setCorrect(correctCount)
+      setQuizComplete(true)
+    } else {
+      props.handleQuiz()
+      // restart game
     }
-    e.target.style.backgroundColor = "yellow"
-    e.target.style.color = "black"
   }
-  
-  function handleAnswers(e){
-    console.log("Checking Answers....")
-    const myAnswers = props.fetchArray
-    for(let i = 0; i < myAnswers.length; i++){
-      const answerChosen = []
-      if(myAnswers[i].correct_answer === e.target.value){
-        console.log("correct answer")
-        answerChosen.push(...myAnswers.correct_answer)
-      } else {
-        console.log("incorrect answer")
-      }
-    } return answerChosen
-    
-  }
-  
+
   return (
     <div className="night-container">
-      {
-        props.fetchArray.map((item, index) => (
-          <div className="question">
-            <p key={index}>{decode(item.question)}</p>
-            <div className="options-container">
-              <ul class="click-option">
-              {
-                [item.correct_answer, ...item.incorrect_answers].sort(() => Math.random() - 0.5).map((option, i) => {
-                  return (
-                    <li className="option" key={i}>
-                      <label htmlFor={`option_${index}_${i}`}>
-                        <input 
-                          type="radio"
-                          id={`option_${index}_${i}`}
-                          value={option} 
-                          name={`option_${index}`} />{decode(option)}
-                      </label>
-                    </li>
-                    // The id and htmlFor use index and i, which makes each option uniquely identifiable. Using index differentiates questions, while i differentiates options within the same question.
-                    
-                  )
-                })
-              }
-              </ul>
-            </div>
-          </div>
-        ))
-      }
+      {shuffledQuestions.length > 0 ? (
+                shuffledQuestions.map((item, index) => (
+                    <div className="question" key={index}>
+                        <p>{decode(item.question)}</p>
+                        <div className="options-container">
+                            <ul className="click-option">
+                                {item.shuffledOptions.map((option, i) => (
+                                    <li className="option" key={i}>
+                                        <label htmlFor={`option_${index}_${i}`}>
+                                            <input
+                                                type="radio"
+                                                id={`option_${index}_${i}`}
+                                                value={option}
+                                                name={`option_${index}`}
+                                                checked={selectedAns[`option_${index}`] === option}
+                                                onChange={handleChange}
+                                                // The id and htmlFor use index and i, which makes each option uniquely identifiable. Using index differentiates questions, while i differentiates options within the same question.
+                                            />
+                                            {decode(option)}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                ))
+            ) : (
+                <p>Loading questions...</p>
+            )}
 
       <div className="score">
-        {/* <p>You scored 3/5 correct answers</p> */}
-        <button onClick={handleAnswers}>{props.fetchArray ? "Check Answers" : "Play again"}</button>
+        {quizComplete && <p>You scored {correct}/{shuffledQuestions.length} correct answers.</p>}
+
+        <button onClick={handleCheckAnswers}> {quizComplete ? "Play again" : "Check Answers"}</button>
       </div>
     </div>
   )
