@@ -25,7 +25,7 @@ body {
     min-width: 550px;
     min-height: 550px;
     height: 100%;
-    width: 100wh;
+    width: 100vw;
     background: url(https://wallpapers.com/images/hd/aesthetic-minimalist-firewatch-fa8mgdbaweglc244.jpg);
     color: white;
 }
@@ -87,7 +87,7 @@ body {
 .night-container{
     min-width: 550px;
     min-height: 550px;
-    width: 100wh;
+    width: 100vw;
     height: 100%;
     background: url(https://i.redd.it/cmcfzy4qb9881.jpg);
     background-size: cover;
