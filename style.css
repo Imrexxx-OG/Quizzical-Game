@@ -9,6 +9,11 @@ body {
     width: 100%;
 }
 
+.quiz-container{
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
 
 /* morning styles */
 
